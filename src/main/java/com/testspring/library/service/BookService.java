@@ -13,5 +13,7 @@ public interface BookService {
 
     public Book getBookByISBN(String ISBN);
 
+    public boolean isExists(String ISBN);
+
     public List<Book> ListBooks();
 }

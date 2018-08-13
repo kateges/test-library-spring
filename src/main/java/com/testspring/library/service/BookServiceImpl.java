@@ -40,6 +40,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public boolean isExists(String ISBN) {
+        return this.bookDao.isExists(ISBN);
+    }
+
+    @Override
 
     public List<Book> ListBooks() {
         return this.bookDao.ListBooks();

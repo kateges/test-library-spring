@@ -1,6 +1,7 @@
 package com.testspring.library.dao;
 
 import com.testspring.library.model.Book;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +24,20 @@ public class BookDaoImpl implements BookDao {
         return book;
     }
 
+    @Override
+    public boolean isExists(String ISBN) {
+        List<Book> bookList = (List<Book>) jdbcTemplate.query("select * from ges_books_test where ISBN = '"+ISBN+"'",
+                new BookRowMapper());
+        if ( bookList.isEmpty() )
+            return false;
+        else
+            return true;
+    }
+
     @Transactional
     public void addBook(Book book) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        simpleJdbcInsert.withTableName("ges_books_test");
         Map<String, Object> parameters = new HashMap<String, Object>(4);
         parameters.put("ISBN", book.getISBN());
         parameters.put("author", book.getAuthor());
@@ -38,13 +50,12 @@ public class BookDaoImpl implements BookDao {
     @Transactional
     public void updateBook(Book book) {
         String sql = "update ges_books_test set author = ?, name_book = ? where isbn = ?";
-        int resp = jdbcTemplate.update(sql, new Object[] { book.getISBN(), book.getAuthor(),
-                book.getName_book(), book.getUser_take() });
+        jdbcTemplate.update(sql, new Object[] { book.getAuthor(), book.getName_book(), book.getISBN()});
     }
 
     @Transactional
     public void removeBook(String ISBN) {
-        int resp = jdbcTemplate.update("delete from ges_books_test where isbn = ?", ISBN);
+        jdbcTemplate.update("delete from ges_books_test where isbn = ?", ISBN);
     }
 
 

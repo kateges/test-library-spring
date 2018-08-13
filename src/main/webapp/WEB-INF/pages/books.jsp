@@ -19,7 +19,7 @@ function take(isbn, user_log) {
 if (confirm("Взять себе книгу?")){
 document.fortake.isbn_take.value =isbn;
 document.fortake.user_log.value =user_log;
-document.fortake.submit();"+
+document.fortake.submit();
 }
 }
 
@@ -36,13 +36,33 @@ document.forreturn.submit();
 
 <a href="./index.jsp">На главную</a>
 
+<c:if test="${not empty add_book_res}">
+    <script>
+    if (${add_book_res} > 0)
+      alert("Книга добавлена");
+    else
+    {
+      alert("Книга с таким ISBN уже существует");
+      document.getElementById('envelope').style.display='block';
+      document.getElementById('fade').style.display='block';
+    }
+   </script>
+</c:if>
+
+<c:if test="${not empty edit_book_res}">
+    <script>
+    if (${edit_book_res} > 0)
+      alert("Изменения сохранены");
+   </script>
+</c:if>
+
 <h1>Список книг</h1>
 
 <h4 align = "center"><a class="show-btn" href = "javascript:void(0)" onclick = "document.getElementById('envelope').style.display='block';document.getElementById('fade').style.display='block'">Добавить книгу</a></h4>
 
 <div id="envelope" class="envelope">
 
-<form method="get" action="AddNewBook"><br>
+<form method="get" action="${pageContext.request.contextPath}/add"><br>
 <h3 align = "center">Добавить книгу</h3><br>
 <table align="center">
 <tr><td>ISBN</td><td><input type="text" name="isbn_add" id="isbn_add" class="text-ok" required /></td></tr>
@@ -56,7 +76,7 @@ document.forreturn.submit();
 <div id="fade" class="black-overlay"></div>
 
 <div id="editbook" class="envelope">
-<form method="get" action="EditBook"><br>
+<form method="post" action="${pageContext.request.contextPath}/edit"><br>
 <h3 align = "center">Редактировать книгу</h3><br>
 <table align="center">
 <tr><td>ISBN</td><td><input type="text" name="isbn_edit" id="isbn_edit"  class="text-disabled" readonly /></td></tr>
@@ -81,16 +101,21 @@ document.forreturn.submit();
         <c:forEach var="book" items="${listBooks}">
         <tr>
         <td onclick = "document.getElementById('editbook').style.display='block';document.getElementById('fade1').style.display='block';document.getElementById('isbn_edit').value='${book.ISBN}';document.getElementById('author_edit').value='${book.author}';document.getElementById('bookname_edit').value='${book.name_book}'">${book.ISBN}</td>
-        <td><c:out value="${book.author}"/></td>
-        <td><c:out value="${book.name_book}"/></td>
-        <td><c:out value="${book.user_take}"/></td>
-        <td><a href = "/remove?isbn=${book.ISBN}">Удалить</a></td>
+        <td>${book.author}</td>
+        <td>${book.name_book}</td>
+        <td>${book.user_take}</td>
+
+
+        <td> <a href="${pageContext.request.contextPath}/remove?isbn_del='${book.ISBN}'" onclick="return confirm('Do you really want to delete?')">Delete</a> </td>
+
+
+
         </tr>
         </c:forEach>
     </tbody></table>
 </c:if>
 
-<form name="fordelete" action="DelBook" method="get">
+<form name="fordelete" action="${pageContext.request.contextPath}/remove" method="get">
     <input type="hidden" name="isbn_del" id="isbn_del">
 </form>
 <form name="fortake" action="TakeBook" method="get">

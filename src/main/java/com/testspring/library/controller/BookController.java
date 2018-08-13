@@ -5,10 +5,10 @@ import com.testspring.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.FileWriter;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/")
@@ -24,33 +24,51 @@ public class BookController {
         return "/books";
     }
 
-    @RequestMapping(value = "/Books/add", method = RequestMethod.POST)
-    public String addBook(@ModelAttribute("book") Book book) {
-        if (book.getISBN() == null)
-            this.bookService.addBook(book);
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String addBook(@RequestParam(value = "isbn_add", required = true) String isbn,
+                          @RequestParam(value = "author_add", required = true) String author,
+                          @RequestParam(value = "bookname_add", required = true) String name_book,
+                          Model model) {
+        Book book = new Book();
+        book.setISBN(isbn);
+        book.setAuthor(author);
+        book.setName_book(name_book);
+        book.setUser_take(0);
 
-        else
-            this.bookService.updateBook(book);
-
-        return "redirect:/books";
+        if (!(this.bookService.isExists(isbn))) {
+            bookService.addBook(book);
+            model.addAttribute("add_book_res", "1");
+            model.addAttribute("listBooks", bookService.ListBooks());
+            return "/books";
+        } else {
+            model.addAttribute("add_book_res", "0");
+            model.addAttribute("listBooks", bookService.ListBooks());
+            return "/books";
+        }
     }
 
-    @RequestMapping("/remove/{isbn}")
-    public String removeBook(@PathVariable("isbn") String ISBN) {
-        this.bookService.removeBook(ISBN);
-        return "redirect:/books";
+    @RequestMapping(value = "/remove", method = RequestMethod.GET)
+    public String removeBook(@RequestParam(value = "isbn_del", required = true) String isbn,
+                             Model model) {
+        System.out.print(isbn);
+        bookService.removeBook(isbn);
+        return "/books?remove=1";
     }
 
-    @RequestMapping("/edit/{isbn}")
-    public String editBook(@PathVariable("isbn") String ISBN, Model model) {
-        model.addAttribute("book", this.bookService.getBookByISBN(ISBN));
-        model.addAttribute("listBooks", this.bookService.ListBooks());
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String editBook(@RequestParam(value = "isbn_edit", required = true) String isbn,
+                          @RequestParam(value = "author_edit", required = true) String author,
+                          @RequestParam(value = "bookname_edit", required = true) String name_book,
+                          Model model) {
+        Book book = new Book();
+        book.setISBN(isbn);
+        book.setAuthor(author);
+        book.setName_book(name_book);
+
+        bookService.updateBook(book);
+        model.addAttribute("edit_book_res", "1");
+        model.addAttribute("listBooks", bookService.ListBooks());
         return "/books";
     }
 
-    @RequestMapping("bookdata/{isbn}")
-    public String bookData(@PathVariable("isbn") String ISBN, Model model) {
-        model.addAttribute("book", this.bookService.getBookByISBN(ISBN));
-        return "/bookdata";
-    }
 }
