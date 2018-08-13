@@ -1,5 +1,5 @@
 <!--
-
+@charset "UTF-8";
 var img_dir = "/servlet-test/images/"; // папка с картинками
 var sort_case_sensitive = false; // вид сортировки (регистрозависимый или нет)
 
