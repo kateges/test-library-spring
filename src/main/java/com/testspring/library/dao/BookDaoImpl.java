@@ -2,6 +2,7 @@ package com.testspring.library.dao;
 
 import com.testspring.library.model.Book;
 
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +56,12 @@ public class BookDaoImpl implements BookDao {
 
     @Transactional
     public void removeBook(String ISBN) {
-        jdbcTemplate.update("delete from ges_books_test where isbn = ?", ISBN);
+        String sql = "delete from ges_books_test where isbn = ?";
+        Object[] params = { ISBN };
+        int[] types = {Types.NVARCHAR};
+
+        jdbcTemplate.update(sql, params, types);
+        System.out.print(ISBN);
     }
 
 

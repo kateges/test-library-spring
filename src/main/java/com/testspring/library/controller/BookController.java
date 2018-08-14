@@ -50,9 +50,11 @@ public class BookController {
     @RequestMapping(value = "/remove", method = RequestMethod.GET)
     public String removeBook(@RequestParam(value = "isbn_del", required = true) String isbn,
                              Model model) {
-        System.out.print(isbn);
+        System.out.println(isbn);
         bookService.removeBook(isbn);
-        return "/books?remove=1";
+        model.addAttribute("del_book_res", "1");
+        model.addAttribute("listBooks", bookService.ListBooks());
+        return "/books";
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)

@@ -106,7 +106,7 @@ document.forreturn.submit();
         <td>${book.user_take}</td>
 
 
-        <td> <a href="${pageContext.request.contextPath}/remove?isbn_del='${book.ISBN}'" onclick="return confirm('Do you really want to delete?')">Delete</a> </td>
+        <td> <a href="${pageContext.request.contextPath}/remove?isbn_del=${book.ISBN}" onclick="return confirm('Do you really want to delete?')">Delete</a> </td>
 
 
 
