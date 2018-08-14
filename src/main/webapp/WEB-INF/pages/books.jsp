@@ -8,12 +8,6 @@
 <link href="<c:url value="/resources/css/style.css" />" rel="stylesheet"/>
 
 <script type="text/javascript" charset="utf-8">
-function del(isbn) {
-if (confirm("Удалить книгу?")){
-document.fordelete.isbn_del.value =isbn;
-document.fordelete.submit();
-}
-}
 
 function take(isbn, user_log) {
 if (confirm("Взять себе книгу?")){
@@ -32,9 +26,7 @@ document.forreturn.submit();
 
 </script>
 </head>
-<body>
-
-<a href="./index.jsp">На главную</a>
+<body class="pages">
 
 <c:if test="${not empty add_book_res}">
     <script>
@@ -56,7 +48,19 @@ document.forreturn.submit();
    </script>
 </c:if>
 
-<h1>Список книг</h1>
+<c:if test="${not empty del_book_res}">
+    <script>
+    if (${del_book_res} > 0)
+      alert("Книга удалена");
+   </script>
+</c:if>
+
+<table class="firstline">
+<tr>
+<td class="toptext">Книги</td>
+<td><a class="toptext" href="${pageContext.request.contextPath}/users">Пользователи</a></td>
+</tr>
+</table>
 
 <h4 align = "center"><a class="show-btn" href = "javascript:void(0)" onclick = "document.getElementById('envelope').style.display='block';document.getElementById('fade').style.display='block'">Добавить книгу</a></h4>
 
@@ -104,15 +108,12 @@ document.forreturn.submit();
         <td>${book.author}</td>
         <td>${book.name_book}</td>
         <td>${book.user_take}</td>
-        <td> <a href="${pageContext.request.contextPath}/remove?isbn_del=${book.ISBN}" onclick="return confirm('Do you really want to delete?')">Delete</a> </td>
+        <td> <a href="${pageContext.request.contextPath}/remove?isbn_del=${book.ISBN}" onclick="return confirm('Удалить книгу?')">Удалить</a> </td>
         </tr>
         </c:forEach>
     </tbody></table>
 </c:if>
 
-<form name="fordelete" action="${pageContext.request.contextPath}/remove" method="get">
-    <input type="hidden" name="isbn_del" id="isbn_del">
-</form>
 <form name="fortake" action="TakeBook" method="get">
     <input type="hidden" name="isbn_take" id="isbn_take">
     <input type="hidden" name="user_log" id="user_log">

@@ -52,9 +52,11 @@
 
     <!-- service -->
     <bean id="bookService" class="com.testspring.library.service.BookServiceImpl" />
+    <bean id="userService" class="com.testspring.library.service.UserServiceImpl" />
 
     <!-- dao -->
     <bean id="bookDAO" class="com.testspring.library.dao.BookDaoImpl"/>
+    <bean id="userDAO" class="com.testspring.library.dao.UserDaoImpl"/>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
 

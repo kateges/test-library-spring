@@ -13,7 +13,7 @@
 <table class="firstline">
 <tr>
 <td><a class="toptext" href="${pageContext.request.contextPath}/books">Книги</a></td>
-<td><a class="toptext" href="${pageContext.request.contextPath}/books">Пользователи</a></td>
+<td><a class="toptext" href="${pageContext.request.contextPath}/users">Пользователи</a></td>
 </tr>
 </table>
 </body>
