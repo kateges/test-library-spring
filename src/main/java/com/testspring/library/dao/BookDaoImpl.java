@@ -59,9 +59,7 @@ public class BookDaoImpl implements BookDao {
         String sql = "delete from ges_books_test where isbn = ?";
         Object[] params = { ISBN };
         int[] types = {Types.NVARCHAR};
-
         jdbcTemplate.update(sql, params, types);
-        System.out.print(ISBN);
     }
 
 

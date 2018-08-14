@@ -50,7 +50,6 @@ public class BookController {
     @RequestMapping(value = "/remove", method = RequestMethod.GET)
     public String removeBook(@RequestParam(value = "isbn_del", required = true) String isbn,
                              Model model) {
-        System.out.println(isbn);
         bookService.removeBook(isbn);
         model.addAttribute("del_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());

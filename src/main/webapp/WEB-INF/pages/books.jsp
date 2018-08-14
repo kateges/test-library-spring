@@ -104,12 +104,7 @@ document.forreturn.submit();
         <td>${book.author}</td>
         <td>${book.name_book}</td>
         <td>${book.user_take}</td>
-
-
         <td> <a href="${pageContext.request.contextPath}/remove?isbn_del=${book.ISBN}" onclick="return confirm('Do you really want to delete?')">Delete</a> </td>
-
-
-
         </tr>
         </c:forEach>
     </tbody></table>
