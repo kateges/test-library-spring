@@ -5,6 +5,8 @@ import com.testspring.library.model.User;
 import com.testspring.library.service.BookService;
 import com.testspring.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,7 @@ public class BookController {
                           @RequestParam(value = "author_add", required = true) String author,
                           @RequestParam(value = "bookname_add", required = true) String name_book,
                           Model model) {
+        System.out.println(author);
         Book book = new Book();
         book.setISBN(isbn);
         book.setAuthor(author);
@@ -116,6 +119,17 @@ public class BookController {
         model.addAttribute("edit_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
         return "/books";
+    }
+
+    @RequestMapping(value="/",  method = RequestMethod.GET)
+    public String index(Model model) {
+
+        // Get authenticated user name from SecurityContext
+        SecurityContext context = SecurityContextHolder.getContext();
+
+        model.addAttribute("message", "You are logged in as "
+                + context.getAuthentication().getName());
+        return "/index";
     }
 
 }

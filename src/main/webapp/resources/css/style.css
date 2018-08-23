@@ -1,6 +1,5 @@
 @charset "UTF-8";
 
-/* таблица */
 .firstline{
 border-spacing:1em;
 margin-bottom:1em;
@@ -15,13 +14,6 @@ margin-bottom:1em;
 margin-top:1em;
 background-color:#888888;
 }
-/* таблица */
-.sort{
-border-spacing:0.1em;
-margin-bottom:1em;
-margin-top:1em;
-background-color:#888888;
-}
 
 /* ячейки таблицы */
 .sort td{
@@ -29,7 +21,6 @@ border:1px solid #000000;
 background-color:#dddddd;
 padding:0.3em 1em;
 }
-
 
 /* заголовки таблицы */
 .sort thead{
