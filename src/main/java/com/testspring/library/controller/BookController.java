@@ -40,7 +40,6 @@ public class BookController {
                           @RequestParam(value = "author_add", required = true) String author,
                           @RequestParam(value = "bookname_add", required = true) String name_book,
                           Model model) {
-        System.out.println(author);
         Book book = new Book();
         book.setISBN(isbn);
         book.setAuthor(author);

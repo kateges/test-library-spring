@@ -5,6 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -33,10 +34,11 @@
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
           <property name="driverClassName" value="org.h2.Driver"/>
-          <property name="url" value="jdbc:h2:~/test"/>
+          <property name="url" value="jdbc:h2:mem:testdb;INIT=runscript from 'C:/Projects/Library/src/main/resources/schema.sql'\;runscript from 'C:/Projects/Library/src/main/resources/data.sql'"/>
           <property name="username" value="sa"/>
           <property name="password" value=""/>
     </bean>
+
 
     <!-- Support annotation -->
     <context:annotation-config />

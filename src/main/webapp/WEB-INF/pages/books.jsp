@@ -246,6 +246,7 @@ if (root){
       <td>Название книги</td>
       <td>Кем взята</td>
       <td>Удалить</td>
+      <td>Кем взята</td>
       </tr></thead><tbody>
         <c:forEach var="book" items="${listBooks}">
         <tr>

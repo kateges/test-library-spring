@@ -2,6 +2,7 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:jdbc="http://www.springframework.org/schema/jdbc"
              xsi:schemaLocation="http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd
                                  http://www.springframework.org/schema/beans
@@ -14,6 +15,8 @@
         <http-basic entry-point-ref="basicAuthEntryPoint"/>
         <csrf disabled="true"/>
     </http>
+
+
 
     <authentication-manager>
         <authentication-provider>
