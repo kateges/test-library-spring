@@ -1,5 +1,9 @@
-insert into AUTHORITIES(USERNAME, AUTHORITY)
-values ('tomcat', 'ROLE_USER');
+delete from ges_us_test where USER_LOG='tomcat';
+delete from authorities where USERNAME='tomcat';
 
-insert into GES_US_TEST (USER_ID, USER_LOG, USER_PWD )
-values (1, 'tomcat', 'tomcat');
+insert into authorities(USERNAME, AUTHORITY)
+values ('tomcat', 'ROLE_USER');
+insert into ges_us_test (USER_LOG, USER_PWD )
+values ('tomcat', 'tomcat');
+
+commit;

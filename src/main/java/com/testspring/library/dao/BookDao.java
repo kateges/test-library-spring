@@ -16,4 +16,8 @@ public interface BookDao {
     public boolean isExists(String ISBN);
 
     public List<Book> ListBooks();
+
+    public void takeBook(String ISBN, String user_take);
+
+    public void returnBook(String ISBN);
 }

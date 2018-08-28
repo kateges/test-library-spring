@@ -2,6 +2,8 @@ package com.testspring.library.dao;
 
 import com.testspring.library.model.Book;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,7 @@ import com.testspring.library.model.BookRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 public class BookDaoImpl implements BookDao {
@@ -37,14 +40,8 @@ public class BookDaoImpl implements BookDao {
 
     @Transactional
     public void addBook(Book book) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        simpleJdbcInsert.withTableName("ges_books_test");
-        Map<String, Object> parameters = new HashMap<String, Object>(4);
-        parameters.put("ISBN", book.getISBN());
-        parameters.put("author", book.getAuthor());
-        parameters.put("name_book", book.getName_book());
-        parameters.put("user_take", book.getUser_take());
-        simpleJdbcInsert.execute(parameters);
+        jdbcTemplate.update("insert into ges_books_test (ISBN, author, name_book, user_take) values (?, ?, ?, ?)",
+                    book.getISBN(), book.getAuthor(), book.getName_book(), book.getUser_take());
     }
 
 
@@ -67,7 +64,24 @@ public class BookDaoImpl implements BookDao {
     public List<Book> ListBooks() {
         List<Book> bookList = (List<Book>) jdbcTemplate.query("select * from ges_books_test",
                 new BookRowMapper());
+
         return bookList;
+    }
+
+    @Override
+    public void takeBook(String ISBN, String user_take) {
+        String sql = "update ges_books_test set user_take = ? where isbn = ?";
+        Object[] params = {user_take, ISBN};
+        int[] types = {Types.NVARCHAR, Types.NVARCHAR};
+        jdbcTemplate.update(sql, params, types);
+    }
+
+    @Override
+    public void returnBook(String ISBN) {
+        String sql = "update ges_books_test set user_take = '' where isbn = ?";
+        Object[] params = {ISBN};
+        int[] types = {Types.NVARCHAR};
+        jdbcTemplate.update(sql, params, types);
     }
 
 }

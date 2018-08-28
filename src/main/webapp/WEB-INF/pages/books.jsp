@@ -194,6 +194,20 @@ if (root){
    </script>
 </c:if>
 
+<c:if test="${not empty take_book_res}">
+    <script>
+    if (${take_book_res} > 0)
+      alert("Вы взяли книгу");
+   </script>
+</c:if>
+
+<c:if test="${not empty return_book_res}">
+    <script>
+    if (${return_book_res} > 0)
+      alert("Вы вернули книгу");
+   </script>
+</c:if>
+
 <c:if test="${pageContext.request.userPrincipal.name != null}">
 	   <h2 align = "center">Текущий пользователь : ${pageContext.request.userPrincipal.name}
            </h2>
@@ -246,14 +260,22 @@ if (root){
       <td>Название книги</td>
       <td>Кем взята</td>
       <td>Удалить</td>
-      <td>Кем взята</td>
       </tr></thead><tbody>
         <c:forEach var="book" items="${listBooks}">
         <tr>
         <td onclick = "document.getElementById('editbook').style.display='block';document.getElementById('fade1').style.display='block';document.getElementById('isbn_edit').value='${book.ISBN}';document.getElementById('author_edit').value='${book.author}';document.getElementById('bookname_edit').value='${book.name_book}'">${book.ISBN}</td>
         <td>${book.author}</td>
         <td>${book.name_book}</td>
-        <td>${book.user_take}</td>
+        <td><c:if test="${pageContext.request.userPrincipal.name == book.user_take}">
+                 <a href="${pageContext.request.contextPath}/return?isbn_return=${book.ISBN}" onclick="return confirm('Вернуть книгу?')">Вернуть</a>
+            </c:if>
+            <c:if test="${empty book.user_take}">
+                 <a href="${pageContext.request.contextPath}/take?isbn_take=${book.ISBN}&user_take=${pageContext.request.userPrincipal.name}" onclick="return confirm('Взять себе?')">Взять себе</a>
+            </c:if>
+            <c:if test="${pageContext.request.userPrincipal.name != book.user_take}">
+                 ${book.user_take}
+            </c:if>
+        </td>
         <td> <a href="${pageContext.request.contextPath}/remove?isbn_del=${book.ISBN}" onclick="return confirm('Удалить книгу?')">Удалить</a> </td>
         </tr>
         </c:forEach>

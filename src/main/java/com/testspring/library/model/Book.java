@@ -12,7 +12,7 @@ public class Book {
     private String name_book;
 
 
-    private int user_take;
+    private String user_take;
 
     @Override
     public String toString() {
@@ -36,7 +36,7 @@ public class Book {
         this.name_book = name_book;
     }
 
-    public void setUser_take(int user_take) {
+    public void setUser_take(String user_take) {
         this.user_take = user_take;
     }
 
@@ -53,7 +53,7 @@ public class Book {
         return name_book;
     }
 
-    public int getUser_take() {
+    public String getUser_take() {
         return user_take;
     }
 }

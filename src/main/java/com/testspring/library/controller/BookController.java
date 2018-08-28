@@ -44,7 +44,7 @@ public class BookController {
         book.setISBN(isbn);
         book.setAuthor(author);
         book.setName_book(name_book);
-        book.setUser_take(0);
+        book.setUser_take("");
 
         if (!(this.bookService.isExists(isbn))) {
             bookService.addBook(book);
@@ -83,6 +83,25 @@ public class BookController {
                              Model model) {
         bookService.removeBook(isbn);
         model.addAttribute("del_book_res", "1");
+        model.addAttribute("listBooks", bookService.ListBooks());
+        return "/books";
+    }
+
+    @RequestMapping(value = "/take", method = RequestMethod.GET)
+    public String takeBook(@RequestParam(value = "isbn_take", required = true) String isbn,
+                           @RequestParam(value = "user_take", required = true) String user_take,
+                             Model model) {
+        bookService.takeBook(isbn, user_take);
+        model.addAttribute("take_book_res", "1");
+        model.addAttribute("listBooks", bookService.ListBooks());
+        return "/books";
+    }
+
+    @RequestMapping(value = "/return", method = RequestMethod.GET)
+    public String returnBook(@RequestParam(value = "isbn_return", required = true) String isbn,
+                           Model model) {
+        bookService.returnBook(isbn);
+        model.addAttribute("return_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
         return "/books";
     }

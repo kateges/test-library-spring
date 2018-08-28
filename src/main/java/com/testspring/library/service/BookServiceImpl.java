@@ -48,7 +48,16 @@ public class BookServiceImpl implements BookService {
 
     public List<Book> ListBooks() {
 
-
         return this.bookDao.ListBooks();
+    }
+
+    @Override
+    public void takeBook(String ISBN, String user_take) {
+        this.bookDao.takeBook(ISBN, user_take);
+    }
+
+    @Override
+    public void returnBook(String ISBN) {
+        this.bookDao.returnBook(ISBN);
     }
 }
