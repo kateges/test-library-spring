@@ -2,19 +2,23 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:security="http://www.springframework.org/schema/security"
              xsi:schemaLocation="http://www.springframework.org/schema/security
                                  http://www.springframework.org/schema/security/spring-security.xsd
                                  http://www.springframework.org/schema/beans
                                  http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--Spring security enabled annotations-->
+    <security:global-method-security pre-post-annotations= "enabled" secured-annotations= "enabled" jsr250-annotations= "enabled"/>
+
     <beans:bean id="basicAuthEntryPoint" class="com.testspring.library.config.CustomAuthenticationEntryPoint"/>
 
     <http realm="testspring.com">
+
         <intercept-url pattern="/**" access="isAuthenticated()"/>
         <http-basic entry-point-ref="basicAuthEntryPoint"/>
-        <csrf disabled="true"/>
+      <!--  <csrf disabled="true"/>  -->
     </http>
-
 
 
     <authentication-manager>

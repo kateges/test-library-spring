@@ -4,17 +4,14 @@
 <html lang="ru">
 
 <head><meta http-equiv="content-type" content="text/html; charset=utf-8">
-<script href="<c:url value="/resources/js/sorting.js"/>"></script>
+<script src="<c:url value="/resources/js/sorting.js"/>"></script>
 <link rel="stylesheet" href="<c:url value="/resources/css/style.css" />" />
-
-<script href="<c:url value="/resources/js/sorting.js"/>"></script>
-
 
 </head>
 <body class="pages">
 
 <c:if test="${not empty add_book_res}">
-    <script>
+<script>
     if (${add_book_res} > 0)
       alert("Книга добавлена");
     else
@@ -23,7 +20,7 @@
       document.getElementById('envelope').style.display='block';
       document.getElementById('fade').style.display='block';
     }
-   </script>
+</script>
 </c:if>
 
 <c:if test="${not empty edit_book_res}">

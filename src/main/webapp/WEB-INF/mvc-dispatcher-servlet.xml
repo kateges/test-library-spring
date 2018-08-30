@@ -4,7 +4,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:security="http://www.springframework.org/schema/security"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
 
        xsi:schemaLocation="
@@ -12,12 +11,11 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc	http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/tx	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
-       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 ">
 
     <mvc:annotation-driven />
-    <context:component-scan base-package="com.testspring.library.controller"></context:component-scan>
+    <context:component-scan base-package="com.testspring.library.controller" />
 
     <!-- support annotation transaction -->
     <tx:annotation-driven transaction-manager="txManager" />
@@ -71,7 +69,6 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
 
-    <!--Spring security enabled annotations-->
-    <security:global-method-security pre-post-annotations= "enabled" secured-annotations= "enabled" jsr250-annotations= "enabled"/>
+
 
 </beans>

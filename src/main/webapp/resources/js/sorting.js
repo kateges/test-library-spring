@@ -1,4 +1,3 @@
-@charset "UTF-8";
 var img_dir = "/Books/resources/images/"; // папка с картинками
 var sort_case_sensitive = false; // вид сортировки (регистрозависимый или нет)
 
@@ -144,7 +143,9 @@ function init(e) {
 		}
 	}
 }
-alert("sorting.js");
+
+///////////////////////
+
 var root = window.addEventListener || window.attachEvent ? window : document.addEventListener ? document : null;
 if (root){
 	if (root.addEventListener) root.addEventListener("load", init, false);
