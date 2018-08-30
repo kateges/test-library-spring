@@ -62,7 +62,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public boolean isOwnerBooks(String log_user) {
-        List<User> userList = (List<User>) jdbcTemplate.query("select u.* from ges_books_test b, ges_us_test u where u.user_id=b.user_take and u.user_log = '"+log_user+"'",
+        List<User> userList = (List<User>) jdbcTemplate.query("select u.* from ges_books_test b, ges_us_test u where u.user_log=b.user_take and u.user_log = '"+log_user+"'",
                 new UserRowMapper());
         if ( userList.isEmpty() )
             return false;

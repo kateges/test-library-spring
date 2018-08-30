@@ -10,10 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.LoggerFactory;
 
 @Controller
 @RequestMapping("/")
 public class BookController {
+
+    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @Autowired
     private BookService bookService;
@@ -25,6 +28,7 @@ public class BookController {
     public String listBooks(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("listBooks", bookService.ListBooks());
+        logger.debug("(DEBUG) [listBooks] listBooks : "+bookService.ListBooks().size());
         return "/books";
     }
 
@@ -32,6 +36,7 @@ public class BookController {
     public String listUsers(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("listUsers", userService.ListUsers());
+        logger.debug("(DEBUG) [listUsers] listUsers : "+userService.ListUsers().size());
         return "/users";
     }
 
@@ -50,10 +55,14 @@ public class BookController {
             bookService.addBook(book);
             model.addAttribute("add_book_res", "1");
             model.addAttribute("listBooks", bookService.ListBooks());
+            logger.debug("(DEBUG) [addBook] add_book_res : 1");
+            logger.debug("(DEBUG) [addBook] isbn : "+isbn+", author : "+author+", name_book : "+name_book);
             return "/books";
         } else {
             model.addAttribute("add_book_res", "0");
             model.addAttribute("listBooks", bookService.ListBooks());
+            logger.debug("(DEBUG) [addBook] add_book_res : 0");
+            logger.debug("(DEBUG) [addBook] isbn : "+isbn+", author : "+author+", name_book : "+name_book);
             return "/books";
         }
     }
@@ -70,10 +79,14 @@ public class BookController {
             userService.addUser(user);
             model.addAttribute("add_user_res", "1");
             model.addAttribute("listUsers", userService.ListUsers());
+            logger.debug("(DEBUG) [addBook] add_user_res : 1");
+            logger.debug("(DEBUG) [addBook] login : "+login);
             return "/users";
         } else {
             model.addAttribute("add_user_res", "0");
             model.addAttribute("listUsers", userService.ListUsers());
+            logger.debug("(DEBUG) [addBook] add_user_res : 0");
+            logger.debug("(DEBUG) [addBook] login : "+login);
             return "/users";
         }
     }
@@ -84,6 +97,7 @@ public class BookController {
         bookService.removeBook(isbn);
         model.addAttribute("del_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
+        logger.debug("(DEBUG) [removeBook] del_book_res : 1");
         return "/books";
     }
 
@@ -94,6 +108,7 @@ public class BookController {
         bookService.takeBook(isbn, user_take);
         model.addAttribute("take_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
+        logger.debug("(DEBUG) [takeBook] isbn_take : "+isbn+", user_take : "+user_take);
         return "/books";
     }
 
@@ -103,22 +118,30 @@ public class BookController {
         bookService.returnBook(isbn);
         model.addAttribute("return_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
+        logger.debug("(DEBUG) [returnBook] isbn_return : "+isbn);
         return "/books";
     }
 
     @RequestMapping(value = "/removeuser", method = RequestMethod.GET)
     public String removeUser(@RequestParam(value = "login", required = true) String login,
                              Model model) {
-        if (!userService.isOwnerBooks(login))
+        if (login.equals("tomcat")) // нельзя удалять пользователя tomcat
         {
-            userService.removeUser(login);
-            model.addAttribute("del_user_res", "1");
+            model.addAttribute("del_user_res", "2");
             model.addAttribute("listUsers", userService.ListUsers());
+            logger.debug("(DEBUG) [removeUser] fail, login : "+login);
         }
-        else
-        {
-            model.addAttribute("del_user_res", "0");
-            model.addAttribute("listUsers", userService.ListUsers());
+        else {
+            if (!userService.isOwnerBooks(login)) {
+                userService.removeUser(login);
+                model.addAttribute("del_user_res", "1");
+                model.addAttribute("listUsers", userService.ListUsers());
+                logger.debug("(DEBUG) [removeUser] success, login : " + login);
+            } else {
+                model.addAttribute("del_user_res", "0");
+                model.addAttribute("listUsers", userService.ListUsers());
+                logger.debug("(DEBUG) [removeUser] fail, login : " + login);
+            }
         }
         return "/users";
     }
@@ -136,18 +159,8 @@ public class BookController {
         bookService.updateBook(book);
         model.addAttribute("edit_book_res", "1");
         model.addAttribute("listBooks", bookService.ListBooks());
+        logger.debug("(DEBUG) [editBook] isbn : "+isbn+", author : "+author+", name_book : "+name_book);
         return "/books";
-    }
-
-    @RequestMapping(value="/",  method = RequestMethod.GET)
-    public String index(Model model) {
-
-        // Get authenticated user name from SecurityContext
-        SecurityContext context = SecurityContextHolder.getContext();
-
-        model.addAttribute("message", "You are logged in as "
-                + context.getAuthentication().getName());
-        return "/index";
     }
 
 }

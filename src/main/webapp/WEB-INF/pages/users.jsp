@@ -25,6 +25,12 @@
 
 <c:if test="${not empty del_user_res}">
     <script>
+    if (${del_user_res} > 1)
+        {
+          alert("Нельзя удалить пользователя tomcat");
+        }
+    else
+    {
     if (${del_user_res} > 0)
     {
       alert("Пользователь удален");
@@ -33,7 +39,13 @@
     {
       alert("Нельзя удалить этого пользователя, потому что у него есть книги");
     }
+    }
    </script>
+</c:if>
+
+<c:if test="${pageContext.request.userPrincipal.name != null}">
+	   <h2 align = "center">Текущий пользователь : ${pageContext.request.userPrincipal.name}
+           </h2>
 </c:if>
 
 <table class="firstline">
